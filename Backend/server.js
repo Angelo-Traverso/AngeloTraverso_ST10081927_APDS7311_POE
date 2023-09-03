@@ -1,5 +1,5 @@
 const http = require('https');
-const app = require('./app');
+const app = require('./app'); // Including ./app in project
 const fs = require('fs');
 
 const port = 3000;
