@@ -16,3 +16,12 @@ GET https://localhost:3000/api HTTP/1.1
 
 GET https://localhost:3000/api/orders HTTP/1.1
 
+###
+
+POST https://localhost:3000/api/fruits HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": "4",
+    "name": "Pear"
+}
