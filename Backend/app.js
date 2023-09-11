@@ -21,6 +21,16 @@ app.use(express.json())
 
 const connectionString = 'mongodb+srv://st10081927:wVC6u6ybtrtOvhcG@cluster0.tqg6wuh.mongodb.net/?retryWrites=true&w=majority';
 
+const fruitRoutes = require('./routes/fruit')
+const userRoutes = require('./routes/user')
+
+app.use((reg,res,next)=>
+{
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Reuested-With,Content-Type,Accept,Authorization')
+    res.setHeader('Access-Control-Allow-Methods', '*')
+    next()
+})
 
 mongoose.connect(connectionString)
     .then(() => {
@@ -30,24 +40,10 @@ mongoose.connect(connectionString)
         console.log('Not Connected :=(')
     }, options);
 
-app.post(urlprefix + '/fruits', (req, res) => {
 
-    const fruit = new Fruit(
-        {
-            id: req.body.id,
-            name: req.body.name
-        }
-    )
 
-    fruit.save();
-
-    res.status(201).json({
-        message: 'Fruit created',
-        fruit: fruit
-
-    })
-
-})
+app.use(urlprefix + '/fruits', fruitRoutes)
+app.use(urlprefix + 'user', userRoutes)
 
 module.exports = app;
 
