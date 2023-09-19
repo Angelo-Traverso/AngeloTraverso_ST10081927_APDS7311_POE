@@ -15,5 +15,7 @@ function auth(req, res, next){
         req.user = {id};
         return next();
     }
-
+    res.sendStatus(401);
 }
+
+module.exports = auth;

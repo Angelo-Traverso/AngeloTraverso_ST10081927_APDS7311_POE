@@ -7,11 +7,9 @@ const auth = require('../middleware/auth')
 router.post('/', async (req, res) => {
 
     const { error } = validateUser(req.body);
-
     if (error) return res.status(400).json(error.details[0].message)
 
     const isUnique = (await User.count({ username: req.body.username })) === 0;
-
     if (!isUnique)
         return res
             .status(400)
@@ -25,7 +23,15 @@ router.post('/', async (req, res) => {
         return res.status(500).json(err);
     }
     res.sendStatus(201);
-})
+});
+
+// Get current user details
+router.get('/', auth, async (req, res) => {
+    res.send({currentUser: req.user});
+
+});
+
+module.exports = router;
 
 
 // const express = require('express')
