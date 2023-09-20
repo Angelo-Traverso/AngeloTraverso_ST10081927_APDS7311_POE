@@ -1,51 +1,103 @@
+require('dotenv').config();
 const express = require('express')
+const app = express();
+const https = require('https');
+const fs = require('fs');
+const cors = require('cors');
+const hsts = require('./middleware/hsts');
+const mongoose = require('mongoose');
 
-const app = express()
+// DB
+mongoose
+    .connect(process.env.MONGODB_URL)
+    .then(() => console.log('Db connected...'));
 
-const urlprefix = '/api'
+// Middleware
 
-const mongoose = require('mongoose')
+app.use(cors({ origin: 'https://localhost:3000', optionsSuccessStatus: 200 }));
+app.use(express.json());
+app.use(hsts);
 
-const Fruit = require('./models/fruits')
+// Implementing Cors
+app.use((reg, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,Authorization');
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    next();
+});
 
-const fs = require('fs')
+// Routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/users', require('./routes/user'));
+app.use('/api/posts', require('./routes/posts'));
 
-const cert = fs.readFileSync('keys/certificate.pem')
+// Listen
+https
+    .createServer(
+        {
+            key: fs.readFileSync('./keys/privatekey.pem'),
+            cert: fs.readFileSync('./keys/certificate.pem'),
+            passphrase: 'apds',
+        },
+        app
 
-const options = {
-
-    server: { sslCA: cert }
-};
-
-app.use(express.json())
-
-const connectionString = 'mongodb+srv://st10081927:wVC6u6ybtrtOvhcG@cluster0.tqg6wuh.mongodb.net/?retryWrites=true&w=majority';
-
-const fruitRoutes = require('./routes/fruit')
-const userRoutes = require('./routes/user')
-
-app.use((reg,res,next)=>
-{
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Reuested-With,Content-Type,Accept,Authorization')
-    res.setHeader('Access-Control-Allow-Methods', '*')
-    next()
-})
-
-mongoose.connect(connectionString)
-    .then(() => {
-        console.log('Connected :=)')
-    })
-    .catch(() => {
-        console.log('Not Connected :=(')
-    }, options);
+    )
+    .listen(3000);
 
 
 
-app.use(urlprefix + '/fruits', fruitRoutes)
-app.use(urlprefix + 'user', userRoutes)
 
-module.exports = app;
+
+
+
+// const express = require('express')
+
+// const app = express()
+
+// const urlprefix = '/api'
+
+// const mongoose = require('mongoose')
+
+// const Fruit = require('./models/fruits')
+
+// const fs = require('fs')
+
+// const cert = fs.readFileSync('keys/certificate.pem')
+
+// const options = {
+
+//     server: { sslCA: cert }
+// };
+
+// app.use(express.json())
+
+// const connectionString = 'mongodb+srv://st10081927:wVC6u6ybtrtOvhcG@cluster0.tqg6wuh.mongodb.net/?retryWrites=true&w=majority';
+
+// const fruitRoutes = require('./routes/fruit')
+// const userRoutes = require('./routes/user')
+
+// app.use((reg,res,next)=>
+// {
+//     res.setHeader('Access-Control-Allow-Origin', '*')
+//     res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Reuested-With,Content-Type,Accept,Authorization')
+//     res.setHeader('Access-Control-Allow-Methods', '*')
+//     next()
+// })
+
+// mongoose.connect(connectionString)
+//     .then(() => {
+//         console.log('Connected :=)')
+//     })
+//     .catch(() => {
+//         console.log('Not Connected :=(')
+//     }, options);
+
+
+
+// app.use(urlprefix + '/fruits', fruitRoutes)
+// app.use(urlprefix + 'user', userRoutes)
+
+// module.exports = app;
 
 
 

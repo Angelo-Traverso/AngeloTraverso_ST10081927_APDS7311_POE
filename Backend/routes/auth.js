@@ -5,7 +5,7 @@ const { isValidPassword } = require('../utils/hash');
 
 // Login Route
 router.post('/', async (req, res) =>{
-    const user = await User.findOne({username: req.body,username});
+    const user = await User.findOne({username: req.body.username});
     if (!user)
         return res.status(401).json({error: 'Incorrect username or password'});
 
@@ -14,7 +14,7 @@ router.post('/', async (req, res) =>{
         return res.status(401).json({error: 'Incorrect username and password'});
 
     const token = jwt.sign({ userId: user._id} , process.env.JWT_SECRET_KEY);
-    req.setEncoding({ token })
+    res.send({ token })
 });
 
 module.exports = router;
