@@ -14,11 +14,18 @@
       </div>
       <div class="form-group">
         <label for="priority">Priority</label>
-        <input type="text" id="priority" [formControl]="priority" name="priority" class="form-control" required>
+        <select id="priority" [formControl]="priority" name="priority" class="form-control" required>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="status">Status</label>
-        <input type="text" id="status" [formControl]="status" name="status" class="form-control" required>
+        <select id="status" [formControl]="status" name="status" class="form-control" required>
+          <option value="open">Open</option>
+          <option value="closed">Closed</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="departmentcode">Department Code</label>
@@ -32,15 +39,17 @@
   <!-- List of Posts -->
   <div class="post-list">
     <h3>Posts</h3>
-    <div *ngFor="let post of posts" class="post">
-      <div class="post-details">
-        <h4>{{ post.title }}</h4>
-        <p>{{ post.description }}</p>
-        <span class="priority-badge">{{ post.priority }}</span>
-        <span class="status-badge">{{ post.status }}</span>
-        <span class="department-code">{{ post.departmentcode }}</span>
+    <div class="card-deck">
+      <div *ngFor="let post of posts" class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="card-text">{{ post.description }}</p>
+          <p class="card-text">Priority: {{ post.priority }}</p>
+          <p class="card-text">Status: {{ post.status }}</p>
+          <p class="card-text">Department Code: {{ post.departmentcode }}</p>
+          <button (click)="deletePost(post._id)" class="btn btn-danger">Delete</button>
+        </div>
       </div>
-      <button (click)="deletePost(post._id)" class="btn btn-danger">Delete</button>
     </div>
   </div>
 </div>

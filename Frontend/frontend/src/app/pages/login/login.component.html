@@ -1,15 +1,26 @@
-<div class="login-container">
-    <h2>Login</h2>
-    <form (submit)="onSubmit($event)">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" [formControl]="username" name="username" placeholder="username" class="form-control" required>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="login-container">
+        <h2>Login</h2>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="hasError">
+          {{ errorMessage }}
+          <button type="button" class="close" (click)="dismissError()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form (submit)="onSubmit($event)">
+          <div class="form-outline mb-4">
+            <label for="username">Username</label>
+            <input type="text" id="username" [formControl]="username" name="username" placeholder="Username" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" [formControl]="password" name="password" placeholder="Password" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
       </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" [formControl]="password" name="password" placeholder="Password" class="form-control" required>
-      </div>
-      <div class="error-message" *ngIf="hasError">{{ errorMessage }}</div>
-      <button type="submit" class="btn btn-primary">Login</button>
-    </form>
+    </div>
   </div>
+</div>

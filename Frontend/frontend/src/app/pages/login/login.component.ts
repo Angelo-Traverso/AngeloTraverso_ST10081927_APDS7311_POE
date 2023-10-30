@@ -44,4 +44,9 @@ export class LoginComponent implements OnInit {
       },
     });
   }
+
+  dismissError(): void {
+    this.hasError = false;
+    this.errorMessage = '';
+  }
 }
