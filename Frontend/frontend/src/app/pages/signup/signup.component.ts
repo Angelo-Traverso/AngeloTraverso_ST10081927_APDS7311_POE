@@ -1,8 +1,9 @@
+import { formatCurrency } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormControlDirective } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
@@ -24,10 +25,12 @@ export default class SignupComponent implements OnInit {
 
   ngOnInit(): void { }
 
+
   onSubmit(e: Event) {
     e.preventDefault();
     this.hasError = false;
 
+    console.log(this.username.value, this.firstname.value, this.lastname.value, this.email.value, this.contactNumber.value, this.password.value, this.confirmPassword.value)
     if (
       !this.username.value ||
       !this.firstname.value ||
@@ -36,40 +39,42 @@ export default class SignupComponent implements OnInit {
       !this.contactNumber.value ||
       !this.password.value ||
       !this.confirmPassword.value
+
     ) {
       this.hasError = true;
       this.errorMessage = 'Please fill out all fields';
       return;
     }
 
+    // Check if password match
     if (this.password.value != this.confirmPassword.value) {
       this.hasError = true;
       this.errorMessage = 'Passwords do not match';
       return;
     }
 
-    this.http.post('https://localhost:3000/api/users', {
-      username: this.username.value,
-      firstname: this.firstname.value,
-      lastname: this.lastname.value,
-      email: this.email.value,
-      contactNumber: this.contactNumber.value,
-      password: this.password.value
-    }, {
-      responseType: 'text'
-    }).subscribe({
+    // Send http request ot create user
+    this.auth.signUp(
+      this.username.value,
+      this.firstname.value,
+      this.lastname.value,
+      this.email.value,
+      this.contactNumber.value,
+      this.password.value
+    )
+    .subscribe({
+      
       next: (v) => {
-        if (v === 'Created') {
-          this.router.navigate(['/login']);
-        } else {
-          this.hasError = true;
-          this.errorMessage = 'Unexpected response: ' + v;
-        }
+        console.log('Token received:', v);
+        this.router.navigate(['/login']);
       },
       error: (err) => {
+        console.log('Error signing up:', err);
         this.hasError = true;
-        this.errorMessage = 'Error creating account, please check your details';
+        this.errorMessage = 'Error creating acccount, please check your details';
       },
     });
+
   }
+
 }

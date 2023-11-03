@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 
 export class LoginComponent implements OnInit {
@@ -35,6 +36,12 @@ export class LoginComponent implements OnInit {
       next: (v) =>{
         const { token } = v as any;
         localStorage.setItem('x-auth-token', token);
+
+        if (this.username.value !== null) {
+          this.auth.storeUsernameInSessionStorage(this.username.value);
+        }
+
+         // Set userAuthenticated to true after successful login
         console.log("Ive been reached!")
         this.router.navigate(['/home']);
       },

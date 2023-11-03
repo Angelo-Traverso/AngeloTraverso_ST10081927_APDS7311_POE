@@ -4,7 +4,7 @@
       <h2 class="card-title text-center">Sign Up</h2>
     </div>
     <div class="card-body">
-      <form (submit)="onSubmit($event)">
+      <form (submit)="onSubmit($event)" novalidate>
         <div class="form-group">
           <label for="username">Username</label>
           <input type="text" id="username" [formControl]="username" name="username" class="form-control" required>
@@ -13,6 +13,9 @@
         <div class="form-group">
           <label for="firstname">First Name</label>
           <input type="text" id="firstname" [formControl]="firstname" name="firstname" class="form-control" required>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
         </div>
 
         <div class="form-group">
@@ -42,8 +45,12 @@
 
         <div class="error-message" *ngIf="hasError">{{ errorMessage }}</div>
 
-        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+        <button type="submit" class="btn btn-primary mt-3 w-100">Sign Up</button>
+        
       </form>
+      <div class="text-center mt-3">
+        <p>Already have an account? <a routerLink="/login">Login</a></p>
+      </div>
     </div>
   </div>
 </div>

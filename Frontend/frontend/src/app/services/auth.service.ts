@@ -34,6 +34,18 @@ export class AuthService {
    
   }
 
+  storeUsernameInSessionStorage(username: string): void {
+    // Store the username in sessionStorage
+    sessionStorage.setItem('username', username);
+  }
+
+  getUsernameFromSessionStorage(): string | null {
+    // Retrieve the username from sessionStorage
+    return sessionStorage.getItem('username');
+  }
+
+  
+
 // --------------------------------------------------------------------------------- //
 
   logout(): void {

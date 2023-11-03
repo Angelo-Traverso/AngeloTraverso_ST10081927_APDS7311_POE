@@ -8,7 +8,7 @@ const store = new ExpressBrute.MemoryStore();
 const bruteforce = new ExpressBrute(store);
 
 // Login Route
-router.post('/', bruteforce.prevent, async (req, res) =>{
+router.post('/',async (req, res) =>{
     const user = await User.findOne({username: req.body.username});
     if (!user)
         return res.status(401).json({error: 'Incorrect username or password'});
