@@ -55,6 +55,8 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+
+    
     this.postsService
       .add(this.title.value, this.description.value, this.priority.value, this.status.value, this.departmentcode.value)
       .subscribe({
@@ -74,16 +76,28 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  deletePost(id: string) {
+
+  deletePost(id: string): void {
     console.log('I was called!');
     this.postsService
       .delete(id)
-      .subscribe({ next: (v) => console.log(v), error: (e) => console.log(e) })
-
-    const filtered = this.posts.filter((post) => post._id !== id);
-    this.posts = filtered;
+      .subscribe({
+        next: (v) => {
+          console.log(v);
+          // After successful deletion, update the local posts array
+          const filtered = this.posts.filter((post) => post._id !== id);
+          this.posts = filtered;
+        },
+        error: (e) => console.log(e),
+      });
+  }
+  
+  confirmDelete(postId: string): void {
+    const confirmed = window.confirm('Are you sure you want to delete this post?');
+  
+    if (confirmed) {
+      this.deletePost(postId);
+    }
   }
 
-
 }
-

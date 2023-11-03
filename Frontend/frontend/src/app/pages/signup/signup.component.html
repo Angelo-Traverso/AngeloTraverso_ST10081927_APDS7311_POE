@@ -1,1 +1,49 @@
-<p>signup works!</p>
+<div class="container">
+  <div class="card mx-auto mt-5" style="max-width: 400px;">
+    <div class="card-header">
+      <h2 class="card-title text-center">Sign Up</h2>
+    </div>
+    <div class="card-body">
+      <form (submit)="onSubmit($event)">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" [formControl]="username" name="username" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="firstname">First Name</label>
+          <input type="text" id="firstname" [formControl]="firstname" name="firstname" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="lastname">Last Name</label>
+          <input type="text" id="lastname" [formControl]="lastname" name="lastname" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" [formControl]="email" name="email" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="contactNumber">Contact Number</label>
+          <input type="tel" id="contactNumber" [formControl]="contactNumber" name="contactNumber" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" [formControl]="password" name="password" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" [formControl]="confirmPassword" name="confirmPassword" class="form-control" required>
+        </div>
+
+        <div class="error-message" *ngIf="hasError">{{ errorMessage }}</div>
+
+        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+      </form>
+    </div>
+  </div>
+</div>

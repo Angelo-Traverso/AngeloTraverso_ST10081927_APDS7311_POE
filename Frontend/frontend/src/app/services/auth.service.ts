@@ -50,7 +50,7 @@ export class AuthService {
     contactNumber: string,
     password: string
   ) {
-    return this.http.post(`${this.BASE_URL}/api/auth`, {
+    return this.http.post(`${this.BASE_URL}/api/users`, {
 
       username,
       firstname,

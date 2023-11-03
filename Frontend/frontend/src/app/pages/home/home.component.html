@@ -1,55 +1,70 @@
 <div class="container">
-  <h2>Add a post</h2>
-
-  <!-- Add New Post Form -->
-  <div class="add-post">
-    <form (submit)="addNewPost($event)">
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text" id="title" [formControl]="title" name="title" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea id="description" [formControl]="description" name="description" class="form-control" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="priority">Priority</label>
-        <select id="priority" [formControl]="priority" name="priority" class="form-control" required>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="status">Status</label>
-        <select id="status" [formControl]="status" name="status" class="form-control" required>
-          <option value="open">Open</option>
-          <option value="closed">Closed</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="departmentcode">Department Code</label>
-        <input type="text" id="departmentcode" [formControl]="departmentcode" name="departmentcode" class="form-control" required>
-      </div>
-      <div class="error-message" *ngIf="hasError">{{ errorMessage }}</div>
-      <button type="submit" class="btn btn-primary">Add Post</button>
-    </form>
-  </div>
-
-  <!-- List of Posts -->
-  <div class="post-list">
-    <h3>Posts</h3>
-    <div class="card-deck">
-      <div *ngFor="let post of posts" class="card">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card float-start" style="width: 100%;">
         <div class="card-body">
-          <h5 class="card-title">{{ post.title }}</h5>
-          <p class="card-text">{{ post.description }}</p>
-          <p class="card-text">Priority: {{ post.priority }}</p>
-          <p class="card-text">Status: {{ post.status }}</p>
-          <p class="card-text">Department Code: {{ post.departmentcode }}</p>
-          <button (click)="deletePost(post._id)" class="btn btn-danger">Delete</button>
+          <h2>Add a Post</h2>
+          <!-- Add New Post Form -->
+          <form (submit)="addNewPost($event)">
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" id="title" [formControl]="title" name="title" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" [formControl]="description" name="description" class="form-control" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="priority">Priority</label>
+              <select id="priority" [formControl]="priority" name="priority" class="form-control" required>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="status">Status</label>
+              <select id="status" [formControl]="status" name="status" class="form-control" required>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="departmentcode">Department Code</label>
+              <input type="text" id="departmentcode" [formControl]="departmentcode" name="departmentcode" class="form-control" required>
+            </div>1
+            <div class="error-message" *ngIf="hasError">{{ errorMessage }}</div>
+            <button type="submit" class="btn btn-primary">Add Post</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h2>View Posts</h2>
+          <!-- List of Posts -->
+
+          <div class="post-list" style="max-height: 700px; overflow-y: auto;">
+            <!-- Margin -->
+            <div *ngFor="let post of posts" class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title" style="text-transform: uppercase;">{{ post.title }}</h5>
+                <p class="card-text">{{ post.description }}</p>
+                <p class="card-text">Priority: {{ post.priority }}</p>
+                <p class="card-text">Status: {{ post.status }}</p>
+                <p class="card-text">Department Code: {{ post.departmentcode }}</p>
+                <button (click)="confirmDelete(post._id)" class="btn btn-danger">Delete</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
+
