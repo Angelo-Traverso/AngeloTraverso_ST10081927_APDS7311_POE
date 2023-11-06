@@ -1,0 +1,44 @@
+/* For Webkit browsers (e.g., Chrome, Safari) */
+.post-list::-webkit-scrollbar {
+    width: 12px; /* Set the width of the scrollbar */
+  }
+  
+  .post-list::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Set the background color of the track */
+    margin-right: 10px; /* Add a margin to the right of the track */
+  }
+  
+  .post-list::-webkit-scrollbar-thumb {
+    background: #888; /* Set the color of the scrollbar thumb */
+    border-radius: 6px; /* Set the border radius of the scrollbar thumb */
+  }
+  
+  /* For Firefox */
+  .post-list {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1; /* Set scrollbar color */
+    margin-right: 10px;
+  }
+
+  .with-line {
+    border-bottom: 1px solid #9b9595; /* Adjust the color and width as needed */
+    padding-bottom: 10px; /* Add some space between the text and the line */
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  
+  .status-green-dot {
+    background-color: green;
+  }
+  
+  .status-red-dot {
+    background-color: red;
+  }

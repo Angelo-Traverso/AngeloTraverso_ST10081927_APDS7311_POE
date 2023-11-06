@@ -1,5 +1,5 @@
 <div class="container h-100">
-  <div class="row justify-content-center align-items-center h-100">
+  <div class="row justify-content-center align-items-center h-100" style="margin-top: 40px;">
     <div class="col-md-4">
       <div class="login-container p-4 rounded bg-light shadow">
         <h2 class="text-center mb-4">Login</h2>
@@ -14,11 +14,27 @@
             <label for="username" class="form-label">Username</label>
             <input type="text" id="username" [formControl]="username" name="username" placeholder="Username" class="form-control" required>
           </div>
-          <div class="mb-4">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" id="password" [formControl]="password" name="password" placeholder="Password" class="form-control" required>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-group">
+              <input type="{{ showPassword ? 'text' : 'password' }}" id="password" [formControl]="password"
+                name="password" class="form-control" required>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
+                  {{ showPassword ? "Hide" : "Show" }}
+                </button>
+              </div>
+            </div>
+            <small class="text-danger" *ngIf="password.invalid && (password.dirty || password.touched)">
+              <ng-container *ngIf="password.hasError('required')">Password is required.</ng-container>
+              <ng-container *ngIf="password.hasError('pattern')">
+                Password must be at least 6 characters long and include at least one capital letter, one number, and one
+                special character.
+              </ng-container>
+            </small>
           </div>
-          <button type="submit" class="btn btn-primary w-100">Login</button>
+  
+          <button type="submit" class="btn btn-primary w-100" style="margin-top: 20px;">Login</button>
         </form>
         <div class="text-center mt-3">
           <p>Don't have an account? <a routerLink="/signup">Sign Up</a></p>

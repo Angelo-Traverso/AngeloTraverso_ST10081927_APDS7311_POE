@@ -31,7 +31,6 @@ export class AuthService {
   login(username: string, password: string) {
     console.log(this.http.post(`${this.BASE_URL}/api/auth`, { username, password }))
     return this.http.post(`${this.BASE_URL}/api/auth`, { username, password })
-   
   }
 
   storeUsernameInSessionStorage(username: string): void {
@@ -43,8 +42,6 @@ export class AuthService {
     // Retrieve the username from sessionStorage
     return sessionStorage.getItem('username');
   }
-
-  
 
 // --------------------------------------------------------------------------------- //
 

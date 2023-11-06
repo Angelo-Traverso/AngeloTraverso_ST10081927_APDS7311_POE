@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import SignupComponent from './pages/signup/signup.component';
+import { DatePipe } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
 import { ErrorComponent } from './common/error/error/error.component'; 
@@ -35,7 +36,7 @@ import { AddpostComponent } from './pages/AddPost/addpost/addpost.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthinterceptorInterceptor, multi:true}],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthinterceptorInterceptor, multi:true}, DatePipe], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }
