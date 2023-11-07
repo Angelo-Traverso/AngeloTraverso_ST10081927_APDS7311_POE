@@ -11,19 +11,21 @@
               <input type="text" id="title" [formControl]="title" name="title" class="form-control">
               <small class="text-danger" *ngIf="title.invalid &&  title.touched">
                 <ng-container *ngIf="title.hasError('required')">Title is required.</ng-container>
-                <ng-container *ngIf="title.hasError('minlength')">Title must be at least 3 characters long.</ng-container>
+                <ng-container *ngIf="title.hasError('minlength')">Title must be at least 3 characters
+                  long.</ng-container>
               </small>
             </div>
-            
+
             <div class="form-group">
               <label for="description">Description</label>
               <textarea id="description" [formControl]="description" name="description" class="form-control"></textarea>
               <small class="text-danger" *ngIf="description.invalid && (description.dirty || description.touched)">
                 <ng-container *ngIf="description.hasError('required')">Description is required.</ng-container>
-                <ng-container *ngIf="description.hasError('minlength')">Description must be at least 3 characters long.</ng-container>
+                <ng-container *ngIf="description.hasError('minlength')">Description must be at least 3 characters
+                  long.</ng-container>
               </small>
             </div>
-            
+
             <div class="form-group">
               <label for="priority">Priority</label>
               <select id="priority" [formControl]="priority" name="priority" class="form-control">
@@ -35,7 +37,7 @@
                 <ng-container *ngIf="priority.hasError('required')">Priority is required.</ng-container>
               </small>
             </div>
-            
+
             <div class="form-group">
               <label for="status">Status</label>
               <select id="status" [formControl]="status" name="status" class="form-control">
@@ -46,55 +48,39 @@
                 <ng-container *ngIf="status.hasError('required')">Status is required.</ng-container>
               </small>
             </div>
-            
+
             <div class="form-group">
               <label for="departmentcode">Department Code</label>
-              <input type="text" id="departmentcode" [formControl]="departmentcode" name="departmentcode" class="form-control">
-              <small class="text-danger" *ngIf="departmentcode.invalid && (departmentcode.dirty || departmentcode.touched)">
+              <input type="text" id="departmentcode" [formControl]="departmentcode" name="departmentcode"
+                class="form-control">
+              <small class="text-danger"
+                *ngIf="departmentcode.invalid && (departmentcode.dirty || departmentcode.touched)">
                 <ng-container *ngIf="departmentcode.hasError('required')">Department Code is required.</ng-container>
-                <ng-container *ngIf="departmentcode.hasError('pattern')">Department Code must be 4 or 5 characters long with only alphanumeric characters.</ng-container>
+                <ng-container *ngIf="departmentcode.hasError('pattern')">Department Code must be 4 or 5 characters long
+                  with only alphanumeric characters.</ng-container>
               </small>
             </div>
-            
+
             <div class="error-message text-danger" *ngIf="hasError">{{ errorMessage }}</div>
-            
+
             <div class="mb-3"></div>
-            
+
             <button type="submit" class="btn btn-primary d-block mx-auto">Add Post</button>
           </form>
         </div>
       </div>
-      
+
     </div>
     <div class="col-md-9">
-      <div class="card mb-3 shadow " style="width: 100%">
+      <div class="card mb-3 shadow" style="width: 100%">
         <div class="card-body">
-          <h2 class="text-center with-line">View Posts</h2>
-          <!-- List of Posts -->
-    
+          <h2 class="text-center with-line">Bulletin - Current Issues</h2>
           <div class="post-list" style="max-height: 700px; overflow-y: auto;">
-            <div *ngFor="let post of posts" class="card mb-3 shadow">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h5 class="card-title" style="text-transform: uppercase;">{{ post.title }}</h5>
-                  </div>
-                  <div>
-                    <p class="card-date text-muted">{{ formatDate(post.createdAt) }}</p>
-                  </div>
-                </div>
-                <hr> <!-- Add the horizontal line here -->
-                <p class="card-text">{{ post.description }}</p>
-                <p class="card-text">Priority: {{ post.priority }}</p>
-                <p class="card-text">Status: {{ post.status }}</p>
-                <p class="card-text">Department Code: {{ post.departmentcode }}</p>
-                <button (click)="confirmDelete(post._id)" class="btn btn-danger">Delete</button>
-              </div>
-            </div>
-          </div>    
+           <!-- Displaying list of posts -->
+            <app-post-list [posts]="posts"></app-post-list>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-

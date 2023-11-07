@@ -12,6 +12,7 @@ export class NavbarComponent  {
 
   onLogoutClick(): void {
     this.authService.logout(); // Call the AuthService's logout method
+    sessionStorage.clear();
   }
 
   onAddPostClick(): void {

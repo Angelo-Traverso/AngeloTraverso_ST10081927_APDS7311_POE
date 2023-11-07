@@ -8,6 +8,7 @@ const postSchema = new mongoose.Schema({
     status: String,
     departmentcode: String,
     createdAt: {type: Date, default: Date.now},                 // If a creation date is not provided. Use todays' date
+    author: {type: String}
 
 });
 
@@ -21,6 +22,7 @@ function validatePost(post){
         status:Joi.string().min(4).max(11).required(),          // open, in progress, closed
         departmentcode:Joi.string().min(3).max(50).required(),
         createdAt:Joi.date,
+        author: Joi.string().min(3).max(100).required()
     });
 
     return schema.validate(post);

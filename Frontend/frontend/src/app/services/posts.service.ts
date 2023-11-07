@@ -23,12 +23,12 @@ export class PostsService {
   }
 
 
-  add(title: string, description: string,priority: string, status: string, departmentcode: string ){
+  add(title: string, description: string,priority: string, status: string, departmentcode: string , author: string){
     const token = this.auth.token
     return this.http.post(
       this.BASE_URL,
       {
-        title, description, priority, status, departmentcode
+        title, description, priority, status, departmentcode, author
       },
       {
         headers: {

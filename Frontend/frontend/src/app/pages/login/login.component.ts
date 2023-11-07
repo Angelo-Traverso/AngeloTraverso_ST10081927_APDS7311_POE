@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators  } from '@angular/forms';
+import { FormControl  } from '@angular/forms';
 import { Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth.service'
 import { Title } from "@angular/platform-browser";
@@ -27,7 +27,9 @@ export class LoginComponent implements OnInit {
 
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    localStorage.removeItem('x-auth-token')
+   }
 
   onSubmit(e: Event) {
     e.preventDefault();

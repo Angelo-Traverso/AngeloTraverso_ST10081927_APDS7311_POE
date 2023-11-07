@@ -1,9 +1,8 @@
-import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth.service';
 import { PostsService } from 'src/app/services/posts.service';
-import { DatePipe } from '@angular/common';
 import { Title } from "@angular/platform-browser";
 
 @Component({
@@ -27,9 +26,7 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private auth: AuthService,
     private postsService: PostsService,
-    private datePipe: DatePipe,
     private titleService: Title,
-    private renderer: Renderer2, private el: ElementRef
   ) {
     this.titleService.setTitle("Home");
   }
@@ -63,7 +60,7 @@ export class HomeComponent implements OnInit {
     }
   
     this.postsService
-      .add(this.title.value, this.description.value, this.priority.value, this.status.value, this.departmentcode.value)
+      .add(this.title.value, this.description.value, this.priority.value, this.status.value, this.departmentcode.value, this.auth.getUsernameFromSessionStorage() || '')
       .subscribe({
         next: (newPost) => {
           // Successfully added the new post
@@ -96,43 +93,4 @@ export class HomeComponent implements OnInit {
         },
       });
   }
-  
-  
-
-  deletePost(id: string): void {
-    console.log('I was called!');
-    this.postsService
-      .delete(id)
-      .subscribe({
-        next: (v) => {
-          console.log(v);
-          // After successful deletion, update the local posts array
-          const filtered = this.posts.filter((post) => post._id !== id);
-          this.posts = filtered;
-        },
-        error: (e) => console.log(e),
-      });
-  }
-
-  confirmDelete(postId: string): void {
-    const confirmed = window.confirm('Are you sure you want to delete this post?');
-
-    if (confirmed) {
-      this.deletePost(postId);
-    }
-  }
-
-  formatDate(createdAt: string): string {
-    // Parse the input date into a JavaScript Date object
-    const parsedDate = new Date(createdAt);
-
-    // Define the desired date format
-    const dateFormat = 'd MMM y HH:mm';
-
-    // Use the DatePipe to format the date
-    const formattedDate = this.datePipe.transform(parsedDate, dateFormat);
-
-    return formattedDate || '';
-  }
-
 }

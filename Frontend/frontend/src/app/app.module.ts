@@ -16,6 +16,7 @@ import { AuthinterceptorInterceptor } from './services/authinterceptor.intercept
 import { PostComponent } from './common/post/post/post.component';
 import { NavbarComponent } from './common/navbar/navbar/navbar.component';
 import { AddpostComponent } from './pages/AddPost/addpost/addpost.component';
+import { PostListComponent } from './pages/post-list/post-list.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AddpostComponent } from './pages/AddPost/addpost/addpost.component';
     PostComponent,
     NavbarComponent,
     AddpostComponent,
+    PostListComponent,
   ],
   imports: [
     BrowserModule,

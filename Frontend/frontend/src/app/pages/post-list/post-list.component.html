@@ -1,0 +1,24 @@
+<div class="card mb-3 shadow" *ngFor="let post of posts">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="card-title" style="text-transform: uppercase;">{{ post.title }}</h5>
+          <p class="card-subtitle mb-2 text-body-secondary">Author: {{ post.author }}</p>
+        </div>
+        <div>
+          <p class="card-date text-muted">{{ formatDate(post.createdAt) }}</p>
+        </div>
+      </div>
+      <hr>
+      <h4>Description</h4>
+      <p class="card-text">{{ post.description }}</p>
+
+      <h4>Details</h4>
+
+      <p class="card-text">Priority: {{ post.priority }}</p>
+      <p class="card-text">Status: {{ post.status }}</p>
+      <p class="card-text">Department Code: {{ post.departmentcode }}</p>
+      <button (click)="deletePost(post._id)" class="btn btn-danger" *ngIf="isCurrentUserAuthor(post)">Delete</button>
+    </div>
+  </div>
+  
