@@ -8,15 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent  {
+  // Constructor
   constructor(private authService: AuthService, private router: Router) {}
 
+  // On user logout click event - Logs user out by removing auth token and redirects user to login - Session storage is also cleared to ensure no leaked usernames
   onLogoutClick(): void {
-    this.authService.logout(); // Call the AuthService's logout method
+    this.authService.logout();
     sessionStorage.clear();
-  }
-
-  onAddPostClick(): void {
-    // Navigate to the "Add Post" page
-    this.router.navigate(['/add-post']);
   }
 }
