@@ -1,0 +1,143 @@
+<div class="container">
+  <div class="card mx-auto mt-5" style="max-width: 400px;">
+    <div class="card-header">
+      <h2 class="card-title text-center">Sign Up</h2>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="hasError">
+        {{ errorMessage }}
+        <button type="button" class="close" (click)="dismissError()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Username -->
+    <div class="card-body">
+      <form (submit)="onSubmit($event)" novalidate>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" [formControl]="username" name="username" class="form-control" required>
+          <small class="text-danger" *ngIf="username.invalid && (username.dirty || username.touched)">
+            <ng-container *ngIf="username.hasError('required')">
+              Username is required.
+            </ng-container>
+            <ng-container *ngIf="username.hasError('pattern')">
+              Username can only contain letters with no spaces.
+            </ng-container>
+          </small>
+        </div>
+
+        <!-- First Name -->
+        <div class="form-group">
+          <label for="firstname">First Name</label>
+          <input type="text" id="firstname" [formControl]="firstname" name="firstname" class="form-control">
+          <small class="text-danger" *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)">
+            <ng-container *ngIf="firstname.hasError('required')">
+              First Name is required.
+            </ng-container>
+            <ng-container *ngIf="firstname.hasError('pattern')">
+              First Name can only contain letters with no spaces.
+            </ng-container>
+          </small>
+        </div>
+
+        <!-- LastName -->
+        <div class="form-group">
+          <label for="lastname">Last Name</label>
+          <input type="text" id="lastname" [formControl]="lastname" name="lastname" class="form-control">
+          <small class="text-danger" *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)">
+            <ng-container *ngIf="lastname.hasError('required')">
+              Last Name is required.
+            </ng-container>
+            <ng-container *ngIf="lastname.hasError('pattern')">
+              Last Name can only contain letters with no spaces.
+            </ng-container>
+          </small>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" [formControl]="email" name="email" class="form-control">
+          <small class="text-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+            <ng-container *ngIf="email.hasError('required')">
+              Email is required.
+            </ng-container>
+            <ng-container *ngIf="email.hasError('pattern')">
+              Invalid email format.
+            </ng-container>
+          </small>
+        </div>
+
+        <!-- Contact Number -->
+        <div class="form-group">
+          <label for="contactNumber">Contact Number</label>
+          <input type="tel" id="contactNumber" [formControl]="contactNumber" name="contactNumber" class="form-control">
+          <small class="text-danger" *ngIf="contactNumber.invalid && (contactNumber.dirty || contactNumber.touched)">
+            <ng-container *ngIf="contactNumber.hasError('required')">
+              Contact Number is required.
+            </ng-container>
+            <ng-container *ngIf="contactNumber.hasError('pattern')">
+              Contact Number can only contain numbers with no spaces.
+            </ng-container>
+            <ng-container *ngIf="contactNumber.hasError('minlength')">
+              Contact Number must be at least 10 digits long.
+            </ng-container>
+            <ng-container *ngIf="contactNumber.hasError('maxlength')">
+              Contact Number can't be more than 10 digits long.
+            </ng-container>
+          </small>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <input type="{{ showPassword ? 'text' : 'password' }}" id="password" [formControl]="password"
+              name="password" class="form-control" required>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
+                {{ showPassword ? "Hide" : "Show" }}
+              </button>
+            </div>
+          </div>
+          <small class="text-danger" *ngIf="password.invalid && (password.dirty || password.touched)">
+            <ng-container *ngIf="password.hasError('required')">Password is required.</ng-container>
+            <ng-container *ngIf="password.hasError('pattern')">
+              Password must be at least 6 characters long and include at least one capital letter, one number, and one
+              special character.
+            </ng-container>
+          </small>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="input-group">
+            <input type="{{ showConfirmPassword ? 'text' : 'password' }}" id="confirmPassword"
+              [formControl]="confirmPassword" name="confirmPassword" class="form-control" required>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" (click)="toggleConfirmPasswordVisibility()">
+                {{ showConfirmPassword ? "Hide" : "Show" }}
+              </button>
+            </div>
+          </div>
+          <small class="text-danger"
+            *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
+            <ng-container *ngIf="confirmPassword.hasError('required')">Confirm Password is required.</ng-container>
+            <ng-container *ngIf="confirmPassword.hasError('pattern')">
+              Password must be at least 6 characters long and include at least one capital letter, one number, and one
+              special character.
+            </ng-container>
+          </small>
+        </div>
+        <div class="error-message text-danger" *ngIf="hasError">{{ errorMessage }}</div>
+
+        <button type="submit" class="btn btn-primary mt-3 w-100">Sign Up</button>
+
+      </form>
+      <div class="text-center mt-3">
+        <p>Already have an account? <a routerLink="/login">Login</a></p>
+      </div>
+    </div>
+  </div>
+</div>

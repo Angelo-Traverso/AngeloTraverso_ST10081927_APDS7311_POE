@@ -1,119 +1,60 @@
+require('dotenv').config();
 const express = require('express')
+const app = express();
+const https = require('https');
+const fs = require('fs');
+const cors = require('cors');
+const hsts = require('./middleware/hsts');
+const mongoose = require('mongoose');
+const path = require('path')
+var rfs = require('rotating-file-stream')
+const helmet = require('helmet');
+const morgan = require('morgan');
 
-const app = express()
+// create a rotating write stream
+const accessLogStream = rfs.createStream('access.log', {
+    interval: '1d', // rotate daily
+    path: path.join(__dirname, 'log')
+});
 
-const urlprefix = '/api'
+// setup the logger
+app.use(morgan('combined', { stream: accessLogStream }))
 
-const mongoose = require('mongoose')
+// Helmet implementation
+app.use(helmet());
 
-const Fruit = require('./models/fruits')
+// DB
+mongoose
+    .connect(process.env.MONGODB_URL)
+    .then(() => console.log('Db connected...'));
 
-const fs = require('fs')
+// Middleware
+app.use(cors({ origin: 'http://localhost:4200', optionsSuccessStatus: 200 }));
+app.use(express.json());
+app.use(hsts);
 
-const cert = fs.readFileSync('keys/certificate.pem')
+// Implementing Cors
+app.use((reg, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,Authorization');
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    next();
+});
 
-const options = {
+// Routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/users', require('./routes/user'));
+app.use('/api/posts', require('./routes/posts'));
 
-    server: { sslCA: cert }
-};
+// Listen
+https
+    .createServer(
+        {
+            key: fs.readFileSync('./keys/privatekey.pem'),
+            cert: fs.readFileSync('./keys/certificate.pem'),
+            passphrase: 'apds',
+        },
+        app
 
-app.use(express.json())
-
-const connectionString = 'mongodb+srv://st10081927:wVC6u6ybtrtOvhcG@cluster0.tqg6wuh.mongodb.net/?retryWrites=true&w=majority';
-
-const fruitRoutes = require('./routes/fruit')
-const userRoutes = require('./routes/user')
-
-app.use((reg,res,next)=>
-{
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Reuested-With,Content-Type,Accept,Authorization')
-    res.setHeader('Access-Control-Allow-Methods', '*')
-    next()
-})
-
-mongoose.connect(connectionString)
-    .then(() => {
-        console.log('Connected :=)')
-    })
-    .catch(() => {
-        console.log('Not Connected :=(')
-    }, options);
-
-
-
-app.use(urlprefix + '/fruits', fruitRoutes)
-app.use(urlprefix + 'user', userRoutes)
-
-module.exports = app;
-
-
-
-
-
-
-
-
-
-
-
-// //Contains endpoints
-
-// const express = require('express');
-// const app = express();
-// //Added
-// const urlprefix = '/api'
-// // // // ---------------------------------------------------------------//
-// // // // Is performed on each HTTP GET Request  with path ('/') relative to site root
-// // // app.get('/', (req, res)=>{
-
-// // //     // Response.send - sends response after request is made
-// // //     res.send('Hello World Express')
-// // // });
-
-// // // app.get('/test', (req,res)=>{
-
-// // //     res.send('Hello World Express /test')
-// // // });
-// // // // ---------------------------------------------------------------//
-
-
-// // app.get(urlprefix + '/', (req, res) => {
-
-// // res.send("Hello world!")
-
-// // });
-
-// // app.get(urlprefix + '/orders', (req, res) => {
-
-// //     const orders = [
-// //         {
-// //             id:"1",
-// //             name:"Orange"
-
-// //         },
-// //         {
-// //             id:"2",
-// //             name:"Banana"
-// //         },
-// //         {
-// //             id:"3",
-// //             name:"Pear"
-// //         }
-// //     ]
-// //     res.json(
-
-// //         {
-// //             message:"Fruits",
-// //             orders: orders
-
-// //         }
-// //     )
-// // });
-
-// //app.get()
-
-
-// /* exporting module so that it can be used
-//    from other parts of the application*/
-// module.exports = app;
+    )
+    .listen(3000);
