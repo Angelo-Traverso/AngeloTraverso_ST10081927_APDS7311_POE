@@ -1,9 +1,9 @@
 const express = require('express');
-const helmet = require('helmet');
-const morgan = require('morgan');
+
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/user');
 const { isValidPassword } = require('../utils/hash');
+
 
 const ExpressBrute = require('express-brute');
 const store = new ExpressBrute.MemoryStore();
@@ -13,11 +13,7 @@ const bruteforce = new ExpressBrute(store, {
 
 const router = express.Router();
 
-// Morgan implementation using 'combined' format for the logging
-router.use(morgan('combined'));
 
-// Helmet implementation
-router.use(helmet());
 
 // Login Route
 router.post('/', bruteforce.prevent, async (req, res) => {
