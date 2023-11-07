@@ -11,32 +11,42 @@ import { Title } from "@angular/platform-browser";
 })
 
 export class LoginComponent implements OnInit {
+
+  // Binding FomrControls
   username = new FormControl('');
   password = new FormControl('');
+
+  // Holds whether any errors occur or not
   hasError = false;
+  
+  // Holds the error message
   errorMessage = '';
+  
+  // Holds whether or not to show the password for user inputs
   showPassword = false;
+
+  // Holds whether or not to show the password for user inputs
   showConfirmPassword = false;
 
   // Functions check password visibility state
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
+
+  // Constructor
   constructor(private router: Router, private auth: AuthService, private titleService: Title) {
     this.titleService.setTitle('Login')
-
   }
 
+  // On Initialization
   ngOnInit(): void {
     localStorage.removeItem('x-auth-token')
    }
 
+   // On form submit event
   onSubmit(e: Event) {
     e.preventDefault();
     this.hasError = false;
-
-    console.log('Username:', this.username.value);
-    console.log('Password:', this.password.value);
 
     if (!this.username.value || !this.password.value) {
       this.hasError = true;

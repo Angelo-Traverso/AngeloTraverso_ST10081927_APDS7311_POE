@@ -8,49 +8,47 @@ import { HttpClient } from '@angular/common/http'
 
 export class AuthService {
 
+  // Base url
   private readonly BASE_URL = 'https://localhost:3000'
+  
+  // Constructor
   constructor(private http: HttpClient) { }
   
-  
 
-// --------------------------------------------------------------------------------- //
-
+  // Checks to see if a user is logged in by ensuring they have a token
   get isLoggedIn(): boolean {
     const token = localStorage.getItem('x-auth-token')
     return token ? true : false
   }
 
-// --------------------------------------------------------------------------------- //
 
+  // Gets logged in users' token
   get token() {
     return localStorage.getItem('x-auth-token')
   }
 
-// --------------------------------------------------------------------------------- //
-
+  // Logs user in
   login(username: string, password: string) {
-    console.log(this.http.post(`${this.BASE_URL}/api/auth`, { username, password }))
     return this.http.post(`${this.BASE_URL}/api/auth`, { username, password })
   }
 
+  // Stores users' username in session storage
   storeUsernameInSessionStorage(username: string): void {
-    // Store the username in sessionStorage
     sessionStorage.setItem('username', username);
   }
 
+  // Gets username from the session storage
   getUsernameFromSessionStorage(): string | null {
-    // Retrieve the username from sessionStorage
     return sessionStorage.getItem('username');
   }
 
-// --------------------------------------------------------------------------------- //
-
+  // Logs user out - user is redirected to login and their auth token is removed
   logout(): void {
     localStorage.removeItem('x-auth-token');
   }
 
-// --------------------------------------------------------------------------------- //
 
+  // Signs a user up using their credentials
   signUp(
     username: string,
     firstname: string,

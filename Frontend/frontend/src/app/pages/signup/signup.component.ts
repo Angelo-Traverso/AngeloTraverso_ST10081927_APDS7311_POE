@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormControlDirective, AbstractControl, ValidatorFn, ValidationErrors, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Title } from "@angular/platform-browser";
 
 @Component({
@@ -12,6 +12,7 @@ import { Title } from "@angular/platform-browser";
 
 export default class SignupComponent implements OnInit {
 
+  // Binding form control elements alongside their input validation using REGEX
   username = new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]);
   firstname = new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]);
   lastname = new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]);
@@ -22,21 +23,10 @@ export default class SignupComponent implements OnInit {
   hasError = false;
   errorMessage = '';
 
+  // Constructor
   constructor(private router: Router, private auth: AuthService, private http: HttpClient, private titleService: Title) {
     this.titleService.setTitle("Signup");
    }
-
-  // Error message objects
-  customErrorMessages: { [key: string]: string } = {
-    'username': 'Username is required.',
-    'firstname': 'First Name is required.',
-    'lastname': 'Last Name is required.',
-    'email': 'Invalid email format.',
-    'contactNumber': 'Contact Number is required.',
-    'password': 'Password is required.',
-    'confirmPassword': 'Passwords do not match.',
-  };
-
 
   // Variables to track toggle state
   showPassword = false;
@@ -54,11 +44,11 @@ export default class SignupComponent implements OnInit {
   ngOnInit(): void { }
 
 
+  // On Form Submitted event
   onSubmit(e: Event) {
     e.preventDefault();
     this.hasError = false;
 
-    console.log(this.username.value, this.firstname.value, this.lastname.value, this.email.value, this.contactNumber.value, this.password.value, this.confirmPassword.value)
     if (
       !this.username.value ||
       !this.firstname.value ||

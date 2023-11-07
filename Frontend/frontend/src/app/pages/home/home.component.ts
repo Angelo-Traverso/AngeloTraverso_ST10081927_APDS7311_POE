@@ -11,17 +11,23 @@ import { Title } from "@angular/platform-browser";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  //title, description, priority, status, departmentcode
-
+  // Holds posts from DB
   posts: any[] = [];
+
+  // Validation for FormControl Elements
   title = new FormControl('', [Validators.required, Validators.minLength(3)]);
   description = new FormControl('', [Validators.required, Validators.minLength(3)]);
   priority = new FormControl('high', [Validators.required]);
   status = new FormControl('open', [Validators.required]);
   departmentcode = new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]{4,5}$/)]);
+
+  // Holds whether an error has been returned
   hasError = false;
+
+  // Holds error message
   errorMessage = '';
 
+  // Constructor
   constructor(
     private router: Router,
     private auth: AuthService,
@@ -31,6 +37,8 @@ export class HomeComponent implements OnInit {
     this.titleService.setTitle("Home");
   }
 
+
+  // On Initialized
   ngOnInit(): void {
     if (!this.auth.isLoggedIn) {
       this.router.navigate(['./login'])
@@ -43,10 +51,12 @@ export class HomeComponent implements OnInit {
     });
   }
 
+
+  // Adding a new post
   addNewPost(e: Event) {
     e.preventDefault();
     this.hasError = false;
-  
+
     if (
       !this.title.value ||
       !this.description.value ||
@@ -58,26 +68,28 @@ export class HomeComponent implements OnInit {
       this.errorMessage = 'Please ensure all fields are filled out';
       return;
     }
-  
+
     this.postsService
       .add(this.title.value, this.description.value, this.priority.value, this.status.value, this.departmentcode.value, this.auth.getUsernameFromSessionStorage() || '')
       .subscribe({
         next: (newPost) => {
+
           // Successfully added the new post
           this.posts.push(newPost);
-  
+
           // Reset form fields
           this.title.reset('');
           this.description.reset('');
           this.priority.reset('high');
           this.status.reset('open');
           this.departmentcode.reset('');
-  
+
           // Set focus on the new post (the last post in the list)
           const postList = document.querySelector('.post-list');
           if (postList) {
             const newPostElement = postList.lastElementChild;
             if (newPostElement) {
+              
               // Find a focusable child within the new post
               const focusableChild = newPostElement.querySelector('input, button, a');
               if (focusableChild) {
