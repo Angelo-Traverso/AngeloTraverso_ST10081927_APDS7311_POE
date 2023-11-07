@@ -15,7 +15,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthinterceptorInterceptor } from './services/authinterceptor.interceptor';
 import { PostComponent } from './common/post/post/post.component';
 import { NavbarComponent } from './common/navbar/navbar/navbar.component';
-import { AddpostComponent } from './pages/AddPost/addpost/addpost.component';
 import { PostListComponent } from './pages/post-list/post-list.component';
 
 @NgModule({
@@ -27,7 +26,6 @@ import { PostListComponent } from './pages/post-list/post-list.component';
     ErrorComponent,
     PostComponent,
     NavbarComponent,
-    AddpostComponent,
     PostListComponent,
   ],
   imports: [

@@ -16,10 +16,13 @@ const accessLogStream = rfs.createStream('access.log', {
     interval: '1d', // rotate daily
     path: path.join(__dirname, 'log')
 });
+
 // setup the logger
 app.use(morgan('combined', { stream: accessLogStream }))
+
 // Helmet implementation
 app.use(helmet());
+
 // DB
 mongoose
     .connect(process.env.MONGODB_URL)
